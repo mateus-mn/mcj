@@ -1,9 +1,11 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test("Teste do snapshot da página", () =>
+{
+	// renderiza o elemento
+	const { container } = render(<App />);
+
+	// espera-se que o snapshot seja o mesmo da página
+	expect(container).toMatchSnapshot();
 });
