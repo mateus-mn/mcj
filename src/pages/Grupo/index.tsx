@@ -5,11 +5,12 @@ import { toast } from "react-toastify";
 import Carregando from "../../components/Carregando";
 import { useGetGrupos } from "../../services/grupos";
 import Formulario from "./Formulario";
+import Tabela from "./Tabela";
 
 const GruposPage = () =>
 {
 	// busca os dados do back
-	const { data, isLoading } = useGetGrupos(
+	const { data : grupos, isLoading } = useGetGrupos(
 	{
 		onError: (teste) => toast.error ("Desculpe, ocorreu algum erro interno \n Código: listarGrupos")
 	});
@@ -22,9 +23,19 @@ const GruposPage = () =>
 			<h1 className="text-center mt-3"> <FontAwesomeIcon icon={faUsers} /> Grupos </h1>
 			<button className="btn btn-primary btn-sm" disabled={isLoading} onClick={() => setStatusFormulario (true)}> <FontAwesomeIcon icon={faPlus} /> Novo grupo </button>
 			
-			{isLoading && <Carregando />}
+			{isLoading &&
+				<Carregando />
+			}
 			
-			{!isLoading && data?.length === 0 && <p className="text-center mt-3"> Não existem grupos cadastrados. </p>}
+			{!isLoading && grupos?.length === 0 &&
+				<p className="text-center mt-3"> Não existem grupos cadastrados. </p>
+			}
+
+			{!isLoading && grupos?.length !== 0 &&
+				<Tabela
+					dados={grupos}
+				/>
+			}
 			
 			{!isLoading &&
 				<Formulario
