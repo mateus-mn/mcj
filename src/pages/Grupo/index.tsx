@@ -10,9 +10,11 @@ import Tabela from "./Tabela";
 const GruposPage = () =>
 {
 	// busca os dados do back
-	const { data : grupos, isLoading } = useGetGrupos(
+	const { data : grupos, isLoading, refetch, isRefetching } = useGetGrupos(
 	{
-		onError: (teste) => toast.error ("Desculpe, ocorreu algum erro interno \n Código: listarGrupos")
+		refetchInterval      : false,
+		refetchOnWindowFocus : false,
+		onError              : () => toast.error ("Desculpe, ocorreu algum erro interno \n Código: listarGrupos")
 	});
 
 	// controle para exibir e ocultar o modal do formulário
@@ -23,24 +25,25 @@ const GruposPage = () =>
 			<h1 className="text-center mt-3"> <FontAwesomeIcon icon={faUsers} /> Grupos </h1>
 			<button className="btn btn-primary btn-sm" disabled={isLoading} onClick={() => setStatusFormulario (true)}> <FontAwesomeIcon icon={faPlus} /> Novo grupo </button>
 			
-			{isLoading &&
+			{(isLoading || isRefetching) &&
 				<Carregando />
 			}
 			
-			{!isLoading && grupos?.length === 0 &&
+			{!isLoading && !isRefetching && grupos?.length === 0 &&
 				<p className="text-center mt-3"> Não existem grupos cadastrados. </p>
 			}
 
-			{!isLoading && grupos?.length !== 0 &&
+			{!isLoading && !isRefetching && grupos?.length !== 0 &&
 				<Tabela
 					dados={grupos}
 				/>
 			}
 			
-			{!isLoading &&
+			{!isLoading && !isRefetching &&
 				<Formulario
 					statusFormulario={statusFormulario}
 					setStatusFormulario={setStatusFormulario}
+					refetch={refetch}
 				/>
 			}
 		</div>

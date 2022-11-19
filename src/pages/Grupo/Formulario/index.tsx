@@ -7,8 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FocusEvent } from "react";
 import { useAddGrupo } from "../../../services/grupos";
+import { toast } from "react-toastify";
 
-const Formulario = ({statusFormulario, setStatusFormulario}: FormularioProps) =>
+const Formulario = ({statusFormulario, setStatusFormulario, refetch}: FormularioProps) =>
 {
 	// esquema de validação para o formulário
 	const validacaoFormulario = yup.object({
@@ -17,22 +18,44 @@ const Formulario = ({statusFormulario, setStatusFormulario}: FormularioProps) =>
 	}).required ();
 	
 	// construtor do react-hook-form para validação do formulário
-	const { register, handleSubmit, setValue, formState:{ errors } } = useForm <GrupoForm>
+	const { register, handleSubmit, setValue, reset, formState:{ errors } } = useForm <GrupoForm>
 	({
 		resolver: yupResolver (validacaoFormulario)
 	});
 
 	// hook para cadastro do grupo
-	const { mutate } = useAddGrupo();
+	const { mutateAsync, isLoading } = useAddGrupo();
 
 	const fecharFormulario = () =>
 	{
+		// fecha o modal
 		setStatusFormulario (false);
+
+		// reseta os dados do formulário
+		reset();
+
+		// busca novamente os dados
+		refetch();
 	}
 
 	const cadastrar = (data : GrupoForm) =>
 	{
-		mutate({numero: 4, nome: "Mateus"});
+		mutateAsync({
+			numero : data["numero"],
+			nome   : data["nome"]
+		},
+		{
+			onSuccess : async () =>
+			{
+				toast.success ("Grupo cadastrado com sucesso");
+				fecharFormulario();
+			},
+			onError   : async () =>
+			{
+				toast.error ("Desculpe, ocorreu algum erro interno \n Código: cadastrarGrupo");
+				fecharFormulario();
+			}
+		});
 	}
 
 	// altera o campo nome do Grupo com uma string e o próprio número como um valor default do campo
@@ -90,7 +113,9 @@ const Formulario = ({statusFormulario, setStatusFormulario}: FormularioProps) =>
 						</div>
 						<div className="row">
 							<div className="col-12">
-								<button type="submit" className="btn btn-success mt-3"> <FontAwesomeIcon icon={faSave} /> Salvar </button>
+								<button disabled={isLoading} type="submit" className="btn btn-success mt-3">
+									<FontAwesomeIcon icon={faSave} /> Salvar
+								</button>
 							</div>
 						</div>
 					</form>
