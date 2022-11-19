@@ -5,6 +5,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { paginacaoDatatables } from "../../../constants/global";
 import { Grupo } from "../../../models/Grupo";
+import Detalhar from "../Detalhar";
 import { ColunasTabela, TabelaProps } from "./types";
 
 const Tabela = ({dados} : TabelaProps) =>
@@ -12,9 +13,14 @@ const Tabela = ({dados} : TabelaProps) =>
 	// controle para filtrar a tabela com os elementos
 	const [filtroGrupos, setFiltroGrupos] = useState<Grupo[] | undefined> (dados);
 
+	// guarda o grupo para conseguir enviar para detalhar, edição ou desativação / reativação
+	const [grupo, setGrupo] = useState <Grupo | undefined> (undefined);
+
+	// controle para exibir e ocultar o modal para visualizar os dados de um grupo
+	const [statusModalDetalhar, setStatusModalDetalhar] = useState <boolean> (false);
+
 	const filtrarItens = (e : KeyboardEvent<HTMLInputElement>) =>
 	{
-		// pega o valor digitado no campo
 		const valorFiltro = e.currentTarget.value;
 
 		// se o tamanho do filtro for zero, não filtra nada, ou seja, exibe todos os valores
@@ -24,7 +30,6 @@ const Tabela = ({dados} : TabelaProps) =>
 			return;
 		}
 
-		// efetua o filtro
 		const filtro = dados?.filter ((item) =>
 			item.id === parseInt (valorFiltro)
 			||
@@ -42,43 +47,33 @@ const Tabela = ({dados} : TabelaProps) =>
 			return;
 		}
 		
-		// adiciona os valores encontrados
 		setFiltroGrupos (filtro);
 	}
 
-	const visualizar = (id : number) =>
+	const detalhar = (id : number) =>
 	{
-		// filtra o grupo para enviar para o modal os dados
-		//const elemento = grupos.find ((item) => item.id === id);
+		const elemento = dados?.find ((item) => item.id === id);
 
-		// seta no estado para acesso posterior
-		//setGrupo (elemento);
+		setGrupo (elemento);
 
-		// abre o modal
-		//setStatusDetalhar (true);
+		setStatusModalDetalhar (true);
 	}
 
 	const editar = (id : number) =>
 	{
-		// filtra o grupo para enviar para o modal os dados
 		//const elemento = grupos.find ((item) => item.id === id);
 
-		// seta no estado para acesso posterior
 		//setGrupo (elemento);
 
-		// abre o modal
 		//setStatusFormulario (true);
 	}
 
 	const desativar = (id : number) =>
 	{
-		// filtra o grupo para enviar para o modal os dados
 		//const elemento = grupos.find ((item) => item.id === id);
 
-		// seta no estado para acesso posterior
 		//setGrupo (elemento);
 
-		// abre o modal de confirmação de desativação
 		//setStatusDesativarRegistro (true);
 	}
 
@@ -132,7 +127,7 @@ const Tabela = ({dados} : TabelaProps) =>
 					delay={{ show: 250, hide: 250 }}
 					overlay={<Tooltip id="tooltip-disabled"> Visualizar os dados deste grupo </Tooltip>}
 				>
-					<button type="button" className="btn btn-primary" onClick={() => visualizar (row.id)}> <FontAwesomeIcon icon={faEye} /> </button>
+					<button type="button" className="btn btn-primary" onClick={() => detalhar (row.id)}> <FontAwesomeIcon icon={faEye} /> </button>
 				</OverlayTrigger>
 				
 				{row.ativo === true
@@ -198,14 +193,23 @@ const Tabela = ({dados} : TabelaProps) =>
 			}
 
 			{filtroGrupos !== undefined &&
-				<DataTable
-					columns={colunas}
-					data={filtroGrupos}
-					noDataComponent="Sem registros localizados"
-					pagination paginationComponentOptions={paginacaoDatatables}
-					striped={true}
-					responsive={true}
-				/>
+				<>
+					<DataTable
+						columns={colunas}
+						data={filtroGrupos}
+						noDataComponent="Sem registros localizados"
+						pagination paginationComponentOptions={paginacaoDatatables}
+						striped={true}
+						responsive={true}
+					/>
+
+					<Detalhar
+						grupo={grupo}
+						setGrupo={setGrupo}
+						statusModalDetalhar={statusModalDetalhar}
+						setStatusModalDetalhar={setStatusModalDetalhar}
+					/>
+				</>
 			}
 		</>
 	);
