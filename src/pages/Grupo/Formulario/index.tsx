@@ -5,11 +5,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk, faSave } from "@fortawesome/free-solid-svg-icons";
-import { FocusEvent } from "react";
-import { useAddGrupo } from "../../../services/grupos";
+import { FocusEvent, useEffect } from "react";
+import { useAddGrupo, useAlterGrupo } from "../../../services/grupos";
 import { toast } from "react-toastify";
 
-const Formulario = ({statusFormulario, setStatusFormulario, refetch}: FormularioProps) =>
+const Formulario = ({statusFormulario, setStatusFormulario, refetch, grupo, setGrupo}: FormularioProps) =>
 {
 	// esquema de validação para o formulário
 	const validacaoFormulario = yup.object({
@@ -18,29 +18,26 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch}: Formulario
 	}).required ();
 	
 	// construtor do react-hook-form para validação do formulário
-	const { register, handleSubmit, setValue, reset, formState:{ errors } } = useForm <GrupoForm>
+	const { register, handleSubmit, setValue, formState:{ errors } } = useForm <GrupoForm>
 	({
 		resolver: yupResolver (validacaoFormulario)
 	});
 
 	// hook para cadastro do grupo
-	const { mutateAsync, isLoading } = useAddGrupo();
+	const { mutateAsync : cadastrarGrupo, isLoading : isLoadingCadastrarGrupo } = useAddGrupo();
+	// hook para alteração do grupo
+	const { mutateAsync : alterarGrupo, isLoading : isLoadingAlterarGrupo } = useAlterGrupo(grupo?.id);
 
 	const fecharFormulario = () =>
 	{
-		// fecha o modal
 		setStatusFormulario (false);
-
-		// reseta os dados do formulário
-		reset();
-
-		// busca novamente os dados
+		setGrupo(undefined);
 		refetch();
 	}
 
 	const cadastrar = (data : GrupoForm) =>
 	{
-		mutateAsync({
+		cadastrarGrupo({
 			numero : data["numero"],
 			nome   : data["nome"]
 		},
@@ -58,18 +55,47 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch}: Formulario
 		});
 	}
 
+	const alterar = (data : GrupoForm) =>
+	{
+		alterarGrupo({
+			numero : data["numero"],
+			nome   : data["nome"]
+		},
+		{
+			onSuccess : async () =>
+			{
+				toast.success ("Grupo alterado com sucesso");
+				fecharFormulario();
+			},
+			onError   : async () =>
+			{
+				toast.error ("Desculpe, ocorreu algum erro interno \n Código: alterarGrupo");
+				fecharFormulario();
+			}
+		});
+	}
+
 	// altera o campo nome do Grupo com uma string e o próprio número como um valor default do campo
 	// somente quando é um novo cadastro
 	// Ex.: Grupo 51
 	const setarNomeGrupo = (event : FocusEvent<HTMLInputElement>) =>
 	{
-		const numero = event.target.value;
-
-		if (numero !== "")
+		if (grupo === undefined)
 		{
-			setValue ("nome", "Grupo " + numero);
+			const numero = event.target.value;
+	
+			if (numero !== "" && numero !== "0")
+			{
+				setValue ("nome", `Grupo ${numero}`);
+			}
 		}
 	}
+
+	useEffect(() =>
+	{
+		grupo === undefined ? setValue ("numero", 0) : setValue ("numero", grupo.numero);
+		grupo === undefined ? setValue ("nome", "")  : setValue ("nome", grupo.nome);
+	}, [grupo, setValue]);
 	
 	return(
 		<>
@@ -85,7 +111,7 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch}: Formulario
 				</Modal.Header>
 					
 				<Modal.Body>
-					<form noValidate onSubmit={handleSubmit (cadastrar)}>
+					<form noValidate onSubmit={grupo === undefined ? handleSubmit(cadastrar) : handleSubmit(alterar)}>
 						<div className="row">
 							<div className="col-3">
 								<div className="form-group mt-3">
@@ -113,7 +139,11 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch}: Formulario
 						</div>
 						<div className="row">
 							<div className="col-12">
-								<button disabled={isLoading} type="submit" className="btn btn-success mt-3">
+								<button
+									disabled={isLoadingCadastrarGrupo || isLoadingAlterarGrupo}
+									type="submit"
+									className="btn btn-success mt-3"
+								>
 									<FontAwesomeIcon icon={faSave} /> Salvar
 								</button>
 							</div>

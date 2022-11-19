@@ -8,13 +8,10 @@ import { Grupo } from "../../../models/Grupo";
 import Detalhar from "../Detalhar";
 import { ColunasTabela, TabelaProps } from "./types";
 
-const Tabela = ({dados} : TabelaProps) =>
+const Tabela = ({grupos, grupo, setGrupo, setStatusFormulario} : TabelaProps) =>
 {
 	// controle para filtrar a tabela com os elementos
-	const [filtroGrupos, setFiltroGrupos] = useState<Grupo[] | undefined> (dados);
-
-	// guarda o grupo para conseguir enviar para detalhar, edição ou desativação / reativação
-	const [grupo, setGrupo] = useState <Grupo | undefined> (undefined);
+	const [filtroGrupos, setFiltroGrupos] = useState<Grupo[] | undefined> (grupos);
 
 	// controle para exibir e ocultar o modal para visualizar os dados de um grupo
 	const [statusModalDetalhar, setStatusModalDetalhar] = useState <boolean> (false);
@@ -26,11 +23,11 @@ const Tabela = ({dados} : TabelaProps) =>
 		// se o tamanho do filtro for zero, não filtra nada, ou seja, exibe todos os valores
 		if (valorFiltro.length === 0)
 		{
-			setFiltroGrupos (dados);
+			setFiltroGrupos (grupos);
 			return;
 		}
 
-		const filtro = dados?.filter ((item) =>
+		const filtro = grupos?.filter ((item) =>
 			item.id === parseInt (valorFiltro)
 			||
 			item.numero === parseInt (valorFiltro)
@@ -52,20 +49,16 @@ const Tabela = ({dados} : TabelaProps) =>
 
 	const detalhar = (id : number) =>
 	{
-		const elemento = dados?.find ((item) => item.id === id);
-
+		const elemento = grupos?.find ((item) => item.id === id);
 		setGrupo (elemento);
-
 		setStatusModalDetalhar (true);
 	}
 
 	const editar = (id : number) =>
 	{
-		//const elemento = grupos.find ((item) => item.id === id);
-
-		//setGrupo (elemento);
-
-		//setStatusFormulario (true);
+		const elemento = grupos?.find ((item) => item.id === id);
+		setGrupo (elemento);
+		setStatusFormulario (true);
 	}
 
 	const desativar = (id : number) =>
@@ -184,7 +177,7 @@ const Tabela = ({dados} : TabelaProps) =>
 	return (
 		<>
 			{/* campo de filtro da tabela */}
-			{dados?.length !== 0 &&
+			{grupos?.length !== 0 &&
 				<div className="row">
 					<div className="col-3 offset-9">
 						<input type="text" className="form-control" placeholder="Filtrar" onKeyUp={filtrarItens} />

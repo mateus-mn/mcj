@@ -6,7 +6,9 @@ export type FormularioProps =
 {
 	statusFormulario    : boolean,
 	setStatusFormulario : Dispatch<SetStateAction<boolean>>,
-	refetch             : <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<Grupo[], unknown>>
+	refetch             : <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<Grupo[], unknown>>,
+	grupo               : Grupo | undefined,
+	setGrupo            : Dispatch<SetStateAction<Grupo | undefined>>
 }
 
 export type GrupoForm =

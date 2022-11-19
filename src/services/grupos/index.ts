@@ -23,3 +23,11 @@ export const useAddGrupo = (options? : UseMutationOptions<Grupo, AxiosError, Gru
 		options
 	);
 }
+
+export const useAlterGrupo = (id: number | undefined, options? : UseMutationOptions<Grupo, AxiosError, GrupoForm>) =>
+{
+	return useMutation<Grupo, AxiosError, GrupoForm>(
+		(data) => api.put(`/grupo/alterar/${id}`, data).then((response) => response.data),
+		options
+	);
+}

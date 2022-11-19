@@ -1,8 +1,12 @@
+import { Dispatch, SetStateAction } from "react";
 import { Grupo } from "../../../models/Grupo";
 
 export type TabelaProps =
 {
-	dados : Grupo[] | undefined
+	grupos              : Grupo[] | undefined,
+	grupo               : Grupo | undefined,
+	setGrupo            : Dispatch<SetStateAction<Grupo | undefined>>,
+	setStatusFormulario : Dispatch<SetStateAction<boolean>>
 }
 
 export type ColunasTabela =
