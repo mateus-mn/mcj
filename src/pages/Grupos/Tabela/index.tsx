@@ -177,7 +177,7 @@ const Tabela = ({grupos, grupo, setGrupo, setStatusFormulario} : TabelaProps) =>
 	return (
 		<>
 			{/* campo de filtro da tabela */}
-			{grupos?.length !== 0 &&
+			{grupos !== undefined && grupos?.length !== 0 &&
 				<div className="row">
 					<div className="col-3 offset-9">
 						<input type="text" className="form-control" placeholder="Filtrar" onKeyUp={filtrarItens} />

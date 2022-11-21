@@ -1,9 +1,10 @@
 import { AxiosError } from "axios";
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from "react-query"
 import { Grupo } from "../../models/Grupo"
-import { GrupoForm } from "../../pages/Grupo/Formulario/types";
+import { Total } from "../../models/Total";
+import { GrupoForm } from "../../pages/Grupos/Formulario/types";
 import { api } from "../global/api";
-import { createUseGetGruposKey } from "./keys"
+import { createUseGetGruposKey, createUseGetTotalGruposKey } from "./keys"
 
 export const useGetGrupos = (options? : UseQueryOptions<Grupo[]>) =>
 {
@@ -11,6 +12,17 @@ export const useGetGrupos = (options? : UseQueryOptions<Grupo[]>) =>
 	(
 		createUseGetGruposKey(),
 		() => api.get<Grupo[]>("/grupo/listar")
+		.then((response) => response.data),
+		options
+	);
+}
+
+export const useGetTotalGrupos = (options? : UseQueryOptions<Total>) =>
+{
+	return useQuery<Total>
+	(
+		createUseGetTotalGruposKey(),
+		() => api.get<Total>("/grupo/listarTotais")
 		.then((response) => response.data),
 		options
 	);

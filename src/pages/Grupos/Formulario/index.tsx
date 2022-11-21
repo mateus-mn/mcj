@@ -45,12 +45,13 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch, grupo, setG
 			onSuccess : async () =>
 			{
 				toast.success ("Grupo cadastrado com sucesso");
-				fecharFormulario();
+				setTimeout(() => {
+					fecharFormulario();
+				}, 2000);
 			},
 			onError   : async () =>
 			{
 				toast.error ("Desculpe, ocorreu algum erro interno \n Código: cadastrarGrupo");
-				fecharFormulario();
 			}
 		});
 	}
@@ -107,7 +108,7 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch, grupo, setG
 				keyboard={false}
 			>
 				<Modal.Header closeButton>
-					<Modal.Title> Cadastrar novo grupo </Modal.Title>
+					<Modal.Title> {grupo === undefined ? <> Cadastrar novo grupo </> : <> Alterar grupo </>} </Modal.Title>
 				</Modal.Header>
 					
 				<Modal.Body>
