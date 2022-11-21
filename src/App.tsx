@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import ToastAlert from "./components/ToastAlert";
-import GruposPage from "./pages/Grupo";
+import InicialPage from "./pages/Inicial";
 
 const App = () =>
 {
@@ -10,7 +10,7 @@ const App = () =>
 	return(
 		<>
 			<QueryClientProvider client={queryClient}>
-				<GruposPage />
+				<InicialPage />
 			</QueryClientProvider>
 
 			{/* Inclui o toast que irá exibir todas as mensagens de alerta, erro, sucesso... nas páginas */}
