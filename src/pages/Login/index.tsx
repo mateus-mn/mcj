@@ -34,7 +34,7 @@ const LoginPage = () =>
 		{
 			onSuccess : async (data : Token) =>
 			{
-				toast.dark(`Bem vindo, ${data.nomeUsuario}`);
+				toast.dark(`Logado com sucesso`);
 
 				setTimeout(() => {
 					// seta o token como variável local no navegador

@@ -4,7 +4,7 @@ import { Grupo } from "../../models/Grupo"
 import { Total } from "../../models/Total";
 import { GrupoForm } from "../../pages/Grupos/Formulario/types";
 import { api } from "../global/api";
-import { createUseGetGruposKey, createUseGetTotalGruposKey } from "./keys"
+import { createUseGetDetalharGrupoKey, createUseGetGruposKey, createUseGetTotalGruposKey } from "./keys";
 
 export const useGetGrupos = (options? : UseQueryOptions<Grupo[]>) =>
 {
@@ -12,6 +12,17 @@ export const useGetGrupos = (options? : UseQueryOptions<Grupo[]>) =>
 	(
 		createUseGetGruposKey(),
 		() => api.get<Grupo[]>("/grupo/listar")
+		.then((response) => response.data),
+		options
+	);
+}
+
+export const useGetDetalharGrupo = (id : number | undefined, options? : UseQueryOptions<Grupo[]>) =>
+{
+	return useQuery<Grupo[]>
+	(
+		createUseGetDetalharGrupoKey(id),
+		() => api.get<Grupo[]>(`/grupo/listar/${id}`)
 		.then((response) => response.data),
 		options
 	);
