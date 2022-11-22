@@ -9,7 +9,8 @@ const DesativarRegistro = ({id, modulo, refetch, statusDesativarRegistro, setSta
 
 	const desativar = () =>
 	{
-		mutate(0,
+		mutate(
+		null,
 		{
 			onSuccess : async () =>
 			{
@@ -19,7 +20,7 @@ const DesativarRegistro = ({id, modulo, refetch, statusDesativarRegistro, setSta
 			},
 			onError : async () =>
 			{
-				toast.error ("Desculpe, ocorreu algum erro interno \n Código: desativarGrupo");
+				toast.error (`Desculpe, ocorreu algum erro interno \n Código: desativar${modulo}`);
 			}
 		});
 	}

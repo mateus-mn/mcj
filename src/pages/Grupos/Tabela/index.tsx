@@ -4,6 +4,7 @@ import { KeyboardEvent, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import DataTable, { TableColumn } from "react-data-table-component";
 import DesativarRegistro from "../../../components/DesativarRegistro";
+import ReativarRegistro from "../../../components/ReativarRegistro ";
 import { paginacaoDatatables } from "../../../constants/global";
 import { Grupo } from "../../../models/Grupo";
 import Detalhar from "../Detalhar";
@@ -13,12 +14,12 @@ const Tabela = ({grupos, grupo, refetch, setGrupo, setStatusFormulario} : Tabela
 {
 	// controle para filtrar a tabela com os elementos
 	const [filtroGrupos, setFiltroGrupos] = useState<Grupo[] | undefined>(grupos);
-
 	// controle para exibir e ocultar o modal para visualizar os dados de um grupo
 	const [statusModalDetalhar, setStatusModalDetalhar] = useState<boolean>(false);
-
 	// controle para exibir e ocultar o modal para desativar um registro
 	const [statusDesativarRegistro, setStatusDesativarRegistro] = useState<boolean>(false);
+	// controle para exibir e ocultar o modal para reativar um registro
+	const [statusReativarRegistro, setStatusReativarRegistro] = useState<boolean>(false);
 
 	const filtrarItens = (e : KeyboardEvent<HTMLInputElement>) =>
 	{
@@ -74,14 +75,9 @@ const Tabela = ({grupos, grupo, refetch, setGrupo, setStatusFormulario} : Tabela
 
 	const reativar = (id : number) =>
 	{
-		// filtra o grupo para enviar para o modal os dados
-		//const elemento = grupos.find ((item) => item.id === id);
-
-		// seta no estado para acesso posterior
-		//setGrupo (elemento);
-
-		// abre o modal de confirmação de desativação
-		//setStatusReativarRegistro (true);
+		const elemento = grupos?.find ((item) => item.id === id);
+		setGrupo (elemento);
+		setStatusReativarRegistro (true);
 	}
 
 	// colunas para a tabela do Datatables
@@ -211,6 +207,14 @@ const Tabela = ({grupos, grupo, refetch, setGrupo, setStatusFormulario} : Tabela
 						refetch={refetch}
 						statusDesativarRegistro={statusDesativarRegistro}
 						setStatusDesativarRegistro={setStatusDesativarRegistro}
+					/>
+					
+					<ReativarRegistro
+						id={grupo?.id}
+						modulo="grupo"
+						refetch={refetch}
+						statusReativarRegistro={statusReativarRegistro}
+						setStatusReativarRegistro={setStatusReativarRegistro}
 					/>
 				</>
 			}
