@@ -3,18 +3,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { KeyboardEvent, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import DataTable, { TableColumn } from "react-data-table-component";
+import DesativarRegistro from "../../../components/DesativarRegistro";
 import { paginacaoDatatables } from "../../../constants/global";
 import { Grupo } from "../../../models/Grupo";
 import Detalhar from "../Detalhar";
 import { ColunasTabela, TabelaProps } from "./types";
 
-const Tabela = ({grupos, grupo, setGrupo, setStatusFormulario} : TabelaProps) =>
+const Tabela = ({grupos, grupo, refetch, setGrupo, setStatusFormulario} : TabelaProps) =>
 {
 	// controle para filtrar a tabela com os elementos
-	const [filtroGrupos, setFiltroGrupos] = useState<Grupo[] | undefined> (grupos);
+	const [filtroGrupos, setFiltroGrupos] = useState<Grupo[] | undefined>(grupos);
 
 	// controle para exibir e ocultar o modal para visualizar os dados de um grupo
-	const [statusModalDetalhar, setStatusModalDetalhar] = useState <boolean> (false);
+	const [statusModalDetalhar, setStatusModalDetalhar] = useState<boolean>(false);
+
+	// controle para exibir e ocultar o modal para desativar um registro
+	const [statusDesativarRegistro, setStatusDesativarRegistro] = useState<boolean>(false);
 
 	const filtrarItens = (e : KeyboardEvent<HTMLInputElement>) =>
 	{
@@ -63,11 +67,9 @@ const Tabela = ({grupos, grupo, setGrupo, setStatusFormulario} : TabelaProps) =>
 
 	const desativar = (id : number) =>
 	{
-		//const elemento = grupos.find ((item) => item.id === id);
-
-		//setGrupo (elemento);
-
-		//setStatusDesativarRegistro (true);
+		const elemento = grupos?.find ((item) => item.id === id);
+		setGrupo (elemento);
+		setStatusDesativarRegistro (true);
 	}
 
 	const reativar = (id : number) =>
@@ -201,6 +203,14 @@ const Tabela = ({grupos, grupo, setGrupo, setStatusFormulario} : TabelaProps) =>
 						setGrupo={setGrupo}
 						statusModalDetalhar={statusModalDetalhar}
 						setStatusModalDetalhar={setStatusModalDetalhar}
+					/>
+
+					<DesativarRegistro
+						id={grupo?.id}
+						modulo="grupo"
+						refetch={refetch}
+						statusDesativarRegistro={statusDesativarRegistro}
+						setStatusDesativarRegistro={setStatusDesativarRegistro}
 					/>
 				</>
 			}

@@ -40,6 +40,7 @@ const GruposPage = () =>
 				<Tabela
 					grupos={grupos}
 					grupo={grupo}
+					refetch={refetch}
 					setGrupo={setGrupo}
 					setStatusFormulario={setStatusFormulario}
 				/>

@@ -13,7 +13,7 @@ const Detalhar = ({grupo, setGrupo, statusModalDetalhar, setStatusModalDetalhar}
 	{
 		refetchInterval      : false,
 		refetchOnWindowFocus : false,
-		enabled: !!grupo,
+		enabled: !!grupo && statusModalDetalhar === true,
 		onError : () => toast.error (`Desculpe, ocorreu algum erro interno \n Código: listarGrupo${grupo?.id}`)
 	});
 
@@ -22,7 +22,7 @@ const Detalhar = ({grupo, setGrupo, statusModalDetalhar, setStatusModalDetalhar}
 		{
 			refetchInterval      : false,
 			refetchOnWindowFocus : false,
-			enabled: !!grupo,
+			enabled: !!grupo && statusModalDetalhar === true,
 			onError : () => toast.error (`Desculpe, ocorreu algum erro interno \n Código: listarHistoricoGrupo${grupo?.id}`)
 		});
 

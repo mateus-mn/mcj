@@ -45,11 +45,9 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch, grupo, setG
 			onSuccess : async () =>
 			{
 				toast.success ("Grupo cadastrado com sucesso");
-				setTimeout(() => {
-					fecharFormulario();
-				}, 2000);
+				fecharFormulario();
 			},
-			onError   : async () =>
+			onError : async () =>
 			{
 				toast.error ("Desculpe, ocorreu algum erro interno \n Código: cadastrarGrupo");
 			}
@@ -68,10 +66,9 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch, grupo, setG
 				toast.success ("Grupo alterado com sucesso");
 				fecharFormulario();
 			},
-			onError   : async () =>
+			onError : async () =>
 			{
 				toast.error ("Desculpe, ocorreu algum erro interno \n Código: alterarGrupo");
-				fecharFormulario();
 			}
 		});
 	}
@@ -102,7 +99,7 @@ const Formulario = ({statusFormulario, setStatusFormulario, refetch, grupo, setG
 		<>
 			<Modal
 				show={statusFormulario}
-				onHide={fecharFormulario}
+				onHide={() => setStatusFormulario(false)}
 				size="lg"
 				backdrop="static"
 				keyboard={false}
