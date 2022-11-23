@@ -1,6 +1,6 @@
 export interface Grupo {
-    id: number;
-    numero: number;
-    nome: string;
-    ativo: boolean;
+	id: number;
+	numero: number;
+	nome: string;
+	ativo: boolean;
 }

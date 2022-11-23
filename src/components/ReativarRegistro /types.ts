@@ -3,11 +3,11 @@ import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from 'react-
 import { Grupo } from '../../models/Grupo';
 
 export type ReativarRegistroProps = {
-    id: number | undefined;
-    modulo: string;
-    refetch: <TPageData>(
-        options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-    ) => Promise<QueryObserverResult<Grupo[], unknown>>;
-    statusReativarRegistro: boolean;
-    setStatusReativarRegistro: Dispatch<SetStateAction<boolean>>;
+	id: number | undefined;
+	modulo: string;
+	refetch: <TPageData>(
+		options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+	) => Promise<QueryObserverResult<Grupo[], unknown>>;
+	statusReativarRegistro: boolean;
+	setStatusReativarRegistro: Dispatch<SetStateAction<boolean>>;
 };
