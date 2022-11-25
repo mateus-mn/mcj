@@ -1,11 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Teste do snapshot da página 1`] = `
+exports[`Testes do componente principal Teste de snapshot 1`] = `
 <div>
-  <div>
-    <h1>
-      Hello World MCJ
-    </h1>
+  <div
+    class="text-center"
+  >
+    <div
+      class="spinner-border"
+      role="status"
+    >
+      <span
+        class="visually-hidden"
+      >
+         Carregando... 
+      </span>
+    </div>
   </div>
+  <div
+    class="Toastify"
+  />
 </div>
 `;

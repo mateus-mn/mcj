@@ -9,7 +9,16 @@ export const useReativarRegistro = (
 	options?: UseMutationOptions<Grupo, AxiosError, null>,
 ) => {
 	return useMutation<Grupo, AxiosError, null>(
-		() => api.put(`/${modulo}/reativar/${id}`).then((response) => response.data),
+		(data) =>
+			fetch(`${api.href}${modulo}/reativar/${id}`, {
+				mode: 'cors',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
+				},
+				method: 'PUT',
+				body: JSON.stringify(data),
+			}).then((response) => response.json()),
 		options,
 	);
 };

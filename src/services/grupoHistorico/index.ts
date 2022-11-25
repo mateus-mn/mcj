@@ -10,9 +10,14 @@ export const useGetHistoricoGrupo = (
 	return useQuery<GrupoHistorico[]>(
 		createUseGetHistoricoGrupoKey(idGrupo),
 		() =>
-			api
-				.get<GrupoHistorico[]>(`/grupoHistorico/listar/${idGrupo}`)
-				.then((response) => response.data),
+			fetch(`${api.href}grupoHistorico/listar/${idGrupo}`, {
+				mode: 'cors',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
+				},
+				method: 'GET',
+			}).then((response) => response.json()),
 		options,
 	);
 };

@@ -9,7 +9,15 @@ export const useDesativarRegistro = (
 	options?: UseMutationOptions<Grupo, AxiosError, null>,
 ) => {
 	return useMutation<Grupo, AxiosError, null>(
-		() => api.put(`/${modulo}/desativar/${id}`).then((response) => response.data),
+		() =>
+			fetch(`${api.href}${modulo}/desativar/${id}`, {
+				mode: 'cors',
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
+				},
+				method: 'PUT',
+			}).then((response) => response.json()),
 		options,
 	);
 };
