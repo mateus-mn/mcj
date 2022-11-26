@@ -20,7 +20,9 @@ const DesativarRegistro = ({
 				setStatusDesativarRegistro(false);
 			},
 			onError: async () => {
-				toast.error(`Desculpe, ocorreu algum erro interno \n Código: desativar${modulo}`);
+				toast.error(
+					`Desculpe, ocorreu algum erro interno \n Código: desativar${modulo}/${id}`,
+				);
 			},
 		});
 	};

@@ -13,20 +13,26 @@ const HomePage = () => {
 		refetchOnWindowFocus: false,
 	});
 
+	const goTo = (modulo: string) => {
+		window.location.href = `/${modulo}`;
+	};
+
 	return (
 		<>
 			<h2 className="text-center mt-3">
-				{' '}
 				Bem-vindo, {sessionStorage.getItem('nomeUsuario')}{' '}
-				<FontAwesomeIcon icon={faFaceSmileBeam} />{' '}
+				<FontAwesomeIcon icon={faFaceSmileBeam} />
 			</h2>
 
 			<div className="row justify-content-center mt-3">
 				<div className="col-3 mt-3">
 					<div className="card h-100">
-						<div className="card-header">
-							{' '}
-							<FontAwesomeIcon icon={faUsers} /> Grupos{' '}
+						<div
+							className="card-header"
+							onClick={() => goTo('grupos')}
+							style={{ cursor: 'pointer' }}
+						>
+							<FontAwesomeIcon icon={faUsers} /> Grupos
 						</div>
 						<div className="card-body">
 							{isLoadingTotalGrupos && <Carregando />}
@@ -34,12 +40,10 @@ const HomePage = () => {
 							{isErrorTotalGrupos && (
 								<>
 									<p className="text-center">
-										{' '}
-										Desculpe, não foi possível exibir o total de grupos{' '}
+										Desculpe, não foi possível exibir o total de grupos
 									</p>
 									<p className="text-center">
-										{' '}
-										<FontAwesomeIcon icon={faFrown} />{' '}
+										<FontAwesomeIcon icon={faFrown} />
 									</p>
 								</>
 							)}
@@ -55,12 +59,19 @@ const HomePage = () => {
 								totalGrupos?.total !== 0 && (
 									<>
 										<h5 className="card-title text-center">
-											{' '}
-											{`${totalGrupos?.total} cadastros`}{' '}
+											{totalGrupos?.total === 1
+												? `${totalGrupos?.total} cadastro`
+												: `${totalGrupos?.total} cadastros`}
 										</h5>
 										<h6 className="card-title text-center">
-											{' '}
-											{`${totalGrupos?.totalAtivos} ativos`}{' '}
+											{totalGrupos?.totalAtivos === 1
+												? `${totalGrupos?.totalAtivos} ativo`
+												: `${totalGrupos?.totalAtivos} ativos`}
+										</h6>
+										<h6 className="card-title text-center">
+											{totalGrupos?.totalInativos === 1
+												? `${totalGrupos?.totalInativos} desativado`
+												: `${totalGrupos?.totalInativos} desativados`}
 										</h6>
 									</>
 								)}

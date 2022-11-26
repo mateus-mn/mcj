@@ -14,11 +14,13 @@ import { toast } from 'react-toastify';
 const InicialPage = () => {
 	const { data, isLoading, error } = useGetVerificarToken({
 		refetchOnWindowFocus: false,
+		refetchInterval: 10000,
 		onSuccess: (data: Token) => {
 			if (data.status === false) {
 				// se o usuário está na raiz, a mensagem de sessão expirada não é necessária
 				if (window.location.pathname !== '/') {
 					toast.warn('Sua sessão expirou');
+					window.location.href = '/';
 				}
 			}
 		},
@@ -31,19 +33,12 @@ const InicialPage = () => {
 			{!isLoading && error && (
 				<div className="container mt-3">
 					<p className="text-center">
-						{' '}
-						<img
-							className="img-fluid"
-							src={logoMcj}
-							alt="Logo do MCJ"
-							width={150}
-						/>{' '}
+						<img className="img-fluid" src={logoMcj} alt="Logo do MCJ" width={150} />
 					</p>
 					<h1 className="text-center"> Desculpe </h1>
 					<h3 className="text-center"> Sistema fora do ar provisoriamente </h3>
 					<h1 className="text-center">
-						{' '}
-						<FontAwesomeIcon icon={faFaceDizzy} />{' '}
+						<FontAwesomeIcon icon={faFaceDizzy} />
 					</h1>
 				</div>
 			)}

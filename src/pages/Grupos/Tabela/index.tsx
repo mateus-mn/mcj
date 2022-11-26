@@ -4,7 +4,7 @@ import { KeyboardEvent, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import DesativarRegistro from '../../../components/DesativarRegistro';
-import ReativarRegistro from '../../../components/ReativarRegistro ';
+import ReativarRegistro from '../../../components/ReativarRegistro';
 import { paginacaoDatatables } from '../../../constants/global';
 import { Grupo } from '../../../models/Grupo';
 import Detalhar from '../Detalhar';
@@ -106,10 +106,7 @@ const Tabela = ({ grupos, grupo, refetch, setGrupo, setStatusFormulario }: Tabel
 						placement="left"
 						delay={{ show: 250, hide: 250 }}
 						overlay={
-							<Tooltip id="tooltip-disabled">
-								{' '}
-								Visualizar os dados deste grupo{' '}
-							</Tooltip>
+							<Tooltip id="tooltip-disabled">Visualizar os dados deste grupo</Tooltip>
 						}
 					>
 						<button
@@ -117,84 +114,68 @@ const Tabela = ({ grupos, grupo, refetch, setGrupo, setStatusFormulario }: Tabel
 							className="btn btn-primary"
 							onClick={() => detalhar(row.id)}
 						>
-							{' '}
-							<FontAwesomeIcon icon={faEye} />{' '}
+							<FontAwesomeIcon icon={faEye} />
 						</button>
 					</OverlayTrigger>
 
 					{row.ativo === true ? (
-						<div>
-							<OverlayTrigger
-								placement="left"
-								delay={{ show: 250, hide: 250 }}
-								overlay={<Tooltip> Editar este grupo </Tooltip>}
+						<OverlayTrigger
+							placement="left"
+							delay={{ show: 250, hide: 250 }}
+							overlay={<Tooltip> Editar este grupo </Tooltip>}
+						>
+							<button
+								type="button"
+								className="btn btn-primary"
+								onClick={() => editar(row.id)}
 							>
-								<button
-									type="button"
-									className="btn btn-primary"
-									onClick={() => editar(row.id)}
-								>
-									{' '}
-									<FontAwesomeIcon icon={faEdit} />{' '}
-								</button>
-							</OverlayTrigger>
-						</div>
+								<FontAwesomeIcon icon={faEdit} />
+							</button>
+						</OverlayTrigger>
 					) : (
-						<div>
-							<OverlayTrigger
-								placement="left"
-								delay={{ show: 250, hide: 250 }}
-								overlay={
-									<Tooltip id="tooltip-disabled">
-										{' '}
-										Para editar este grupo, é necessário reativá-lo antes{' '}
-									</Tooltip>
-								}
-							>
-								<span className="d-inline-block">
-									<button disabled type="button" className="btn btn-primary">
-										{' '}
-										<FontAwesomeIcon icon={faEdit} />{' '}
-									</button>
-								</span>
-							</OverlayTrigger>
-						</div>
+						<OverlayTrigger
+							placement="left"
+							delay={{ show: 250, hide: 250 }}
+							overlay={
+								<Tooltip id="tooltip-disabled">
+									Para editar este grupo, é necessário reativá-lo antes
+								</Tooltip>
+							}
+						>
+							<button disabled type="button" className="btn btn-primary">
+								<FontAwesomeIcon icon={faEdit} />
+							</button>
+						</OverlayTrigger>
 					)}
 
 					{row.ativo === true ? (
-						<div>
-							<OverlayTrigger
-								placement="left"
-								delay={{ show: 250, hide: 250 }}
-								overlay={<Tooltip> Desativar este grupo </Tooltip>}
+						<OverlayTrigger
+							placement="left"
+							delay={{ show: 250, hide: 250 }}
+							overlay={<Tooltip> Desativar este grupo </Tooltip>}
+						>
+							<button
+								type="button"
+								className="btn btn-primary"
+								onClick={() => desativar(row.id)}
 							>
-								<button
-									type="button"
-									className="btn btn-primary"
-									onClick={() => desativar(row.id)}
-								>
-									{' '}
-									<FontAwesomeIcon icon={faToggleOn} />{' '}
-								</button>
-							</OverlayTrigger>
-						</div>
+								<FontAwesomeIcon icon={faToggleOn} />
+							</button>
+						</OverlayTrigger>
 					) : (
-						<div>
-							<OverlayTrigger
-								placement="left"
-								delay={{ show: 250, hide: 250 }}
-								overlay={<Tooltip> Reativar este grupo </Tooltip>}
+						<OverlayTrigger
+							placement="left"
+							delay={{ show: 250, hide: 250 }}
+							overlay={<Tooltip> Reativar este grupo </Tooltip>}
+						>
+							<button
+								type="button"
+								className="btn btn-primary"
+								onClick={() => reativar(row.id)}
 							>
-								<button
-									type="button"
-									className="btn btn-primary"
-									onClick={() => reativar(row.id)}
-								>
-									{' '}
-									<FontAwesomeIcon icon={faToggleOff} />{' '}
-								</button>
-							</OverlayTrigger>
-						</div>
+								<FontAwesomeIcon icon={faToggleOff} />
+							</button>
+						</OverlayTrigger>
 					)}
 				</div>,
 			],
