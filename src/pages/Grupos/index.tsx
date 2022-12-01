@@ -29,16 +29,14 @@ const GruposPage = () => {
 	return (
 		<div className="container-fluid">
 			<h1 className="text-center mt-3">
-				{' '}
-				<FontAwesomeIcon icon={faUsers} /> Grupos{' '}
+				<FontAwesomeIcon icon={faUsers} /> Grupos
 			</h1>
 			<button
 				className="btn btn-primary btn-sm"
 				disabled={isLoading || isRefetching}
 				onClick={() => setStatusFormulario(true)}
 			>
-				{' '}
-				<FontAwesomeIcon icon={faPlus} /> Novo grupo{' '}
+				<FontAwesomeIcon icon={faPlus} /> Novo grupo
 			</button>
 
 			{(isLoading || isRefetching) && <Carregando />}

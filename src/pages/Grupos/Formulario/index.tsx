@@ -2,7 +2,7 @@ import { Modal } from 'react-bootstrap';
 import { FormularioProps, GrupoForm } from './types';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAsterisk, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faAsterisk, faFilterCircleXmark, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FocusEvent, useEffect } from 'react';
 import { useAddGrupo, useAlterGrupo } from '../../../services/grupos';
 import { toast } from 'react-toastify';
@@ -18,20 +18,33 @@ const Formulario = ({
 		register,
 		handleSubmit,
 		setValue,
+		reset,
 		formState: { errors },
 	} = useForm<GrupoForm>();
 
-	// hook para cadastro do grupo
 	const { mutateAsync: cadastrarGrupo, isLoading: isLoadingCadastrarGrupo } = useAddGrupo();
-	// hook para alteração do grupo
 	const { mutateAsync: alterarGrupo, isLoading: isLoadingAlterarGrupo } = useAlterGrupo(
 		grupo?.id,
 	);
 
-	const fecharFormulario = () => {
+	const resetFormulario = () => {
+		reset(
+			{
+				numero: 0,
+				nome: '',
+			},
+			{ keepErrors: false },
+		);
+	};
+
+	const fecharFormulario = (recarregarDados: boolean) => {
 		setStatusFormulario(false);
 		setGrupo(undefined);
-		refetch();
+		resetFormulario();
+
+		if (recarregarDados) {
+			refetch();
+		}
 	};
 
 	const cadastrar = (data: GrupoForm) => {
@@ -43,7 +56,7 @@ const Formulario = ({
 			{
 				onSuccess: async () => {
 					toast.success('Grupo cadastrado com sucesso');
-					fecharFormulario();
+					fecharFormulario(true);
 				},
 				onError: async () => {
 					toast.error('Desculpe, ocorreu algum erro interno \n Código: cadastrarGrupo');
@@ -61,7 +74,7 @@ const Formulario = ({
 			{
 				onSuccess: async () => {
 					toast.success('Grupo alterado com sucesso');
-					fecharFormulario();
+					fecharFormulario(true);
 				},
 				onError: async () => {
 					toast.error('Desculpe, ocorreu algum erro interno \n Código: alterarGrupo');
@@ -92,7 +105,7 @@ const Formulario = ({
 		<>
 			<Modal
 				show={statusFormulario}
-				onHide={() => setStatusFormulario(false)}
+				onHide={() => fecharFormulario(false)}
 				size="lg"
 				backdrop="static"
 				keyboard={false}
@@ -118,8 +131,9 @@ const Formulario = ({
 									</label>
 
 									<input
+										id="numero"
 										{...register('numero', {
-											required: 'Número inválido',
+											required: { value: true, message: 'Número inválido' },
 											min: {
 												value: 1,
 												message: 'Informe um número acima de zero',
@@ -140,7 +154,10 @@ const Formulario = ({
 										Nome: <FontAwesomeIcon icon={faAsterisk} />
 									</label>
 									<input
-										{...register('nome', { required: 'Nome em branco' })}
+										id="nome"
+										{...register('nome', {
+											required: { value: true, message: 'Nome em branco' },
+										})}
 										className={
 											'form-control' + (errors.nome ? ' is-invalid' : '')
 										}
@@ -151,13 +168,23 @@ const Formulario = ({
 						</div>
 						<div className="row">
 							<div className="col-12">
-								<button
-									disabled={isLoadingCadastrarGrupo || isLoadingAlterarGrupo}
-									type="submit"
-									className="btn btn-success mt-3"
-								>
-									<FontAwesomeIcon icon={faSave} /> Salvar
-								</button>
+								<div className="btn-group">
+									<button
+										disabled={isLoadingCadastrarGrupo || isLoadingAlterarGrupo}
+										type="submit"
+										className="btn btn-success btn-sm mt-3"
+									>
+										<FontAwesomeIcon icon={faSave} /> Salvar
+									</button>
+									<button
+										disabled={isLoadingCadastrarGrupo || isLoadingAlterarGrupo}
+										type="button"
+										className="btn btn-warning btn-sm mt-3"
+										onClick={resetFormulario}
+									>
+										<FontAwesomeIcon icon={faFilterCircleXmark} /> Limpar
+									</button>
+								</div>
 							</div>
 						</div>
 					</form>

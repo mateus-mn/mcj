@@ -1,9 +1,9 @@
 import { Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { useReativarRegistro } from '../../services/reativarRegistro';
+import { useReativarRegistro } from '../../../services/reativarRegistro';
 import { ReativarRegistroProps } from './types';
 
-const ReativarRegistro = ({
+const Reativar = ({
 	id,
 	modulo,
 	refetch,
@@ -15,7 +15,7 @@ const ReativarRegistro = ({
 	const reativar = () => {
 		mutate(null, {
 			onSuccess: async () => {
-				toast.success('Reaativado com sucesso');
+				toast.success('Grupo reativado com sucesso');
 				refetch();
 				setStatusReativarRegistro(false);
 			},
@@ -36,7 +36,7 @@ const ReativarRegistro = ({
 				keyboard={false}
 			>
 				<Modal.Body>
-					<p className="text-center"> Deseja realmente reativar este registro? </p>
+					<p className="text-center"> Deseja realmente reativar este grupo? </p>
 				</Modal.Body>
 
 				<Modal.Footer>
@@ -56,4 +56,4 @@ const ReativarRegistro = ({
 	);
 };
 
-export default ReativarRegistro;
+export default Reativar;

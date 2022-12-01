@@ -12,7 +12,7 @@ const Detalhar = ({
 	statusModalDetalhar,
 	setStatusModalDetalhar,
 }: DetalharProps) => {
-	const { data, isLoading } = useGetDetalharGrupo(grupo?.id, {
+	const { data, isLoading, isRefetching } = useGetDetalharGrupo(grupo?.id, {
 		refetchInterval: false,
 		refetchOnWindowFocus: false,
 		enabled: !!grupo && statusModalDetalhar === true,
@@ -20,7 +20,11 @@ const Detalhar = ({
 			toast.error(`Desculpe, ocorreu algum erro interno \n Código: listarGrupo${grupo?.id}`),
 	});
 
-	const { data: historico, isLoading: isLoadingHistorico } = useGetHistoricoGrupo(grupo?.id, {
+	const {
+		data: historico,
+		isLoading: isLoadingHistorico,
+		isRefetching: isRefetchingHistorico,
+	} = useGetHistoricoGrupo(grupo?.id, {
 		refetchInterval: false,
 		refetchOnWindowFocus: false,
 		enabled: !!grupo && statusModalDetalhar === true,
@@ -51,13 +55,13 @@ const Detalhar = ({
 					<p className="text-center"> Sem registro </p>
 				) : (
 					<>
-						{isLoading && <Carregando />}
+						{(isLoading || isRefetching) && <Carregando />}
 
-						{!isLoading && data?.length === 0 && (
+						{!(isLoading || isRefetching) && data?.length === 0 && (
 							<p className="text-center"> Sem registro </p>
 						)}
 
-						{!isLoading && data?.length !== 0 && (
+						{!(isLoading || isRefetching) && data?.length !== 0 && (
 							<div className="table-responsive">
 								<table className="table table-bordered table-striped">
 									{data?.map((item) => {
@@ -88,50 +92,50 @@ const Detalhar = ({
 
 						<h4 className="text-center mt-3"> Histórico </h4>
 
-						{isLoadingHistorico && <Carregando />}
+						{(isLoadingHistorico || isRefetchingHistorico) && <Carregando />}
 
-						{!isLoadingHistorico && historico?.length === 0 && (
-							<p className="text-center"> Sem registro </p>
-						)}
+						{!(isLoadingHistorico || isRefetchingHistorico) &&
+							historico?.length === 0 && (
+								<p className="text-center"> Sem registro </p>
+							)}
 
-						{!isLoadingHistorico && historico?.length !== 0 && (
-							<>
-								<div className="table-responsive">
-									<table className="table table-bordered table-striped">
-										<thead>
-											<tr>
-												<th className="text-center"> Situação </th>
-												<th className="text-center"> Data </th>
-												<th className="text-center"> Hora </th>
-												<th className="text-center"> Usuário </th>
-											</tr>
-										</thead>
-										<tbody>
-											{historico?.map((item) => {
-												return (
-													<tr key={item.id}>
-														<td> {item.descricaoSituacao} </td>
-														<td>
-															{' '}
-															{moment(item.dataHoraRegistro).format(
-																'DD/MM/YYYY',
-															)}{' '}
-														</td>
-														<td>
-															{' '}
-															{moment(item.dataHoraRegistro).format(
-																'HH:mm:ss',
-															)}{' '}
-														</td>
-														<td> {item.usuarioRegistro} </td>
-													</tr>
-												);
-											})}
-										</tbody>
-									</table>
-								</div>
-							</>
-						)}
+						{!(isLoadingHistorico || isRefetchingHistorico) &&
+							historico?.length !== 0 && (
+								<>
+									<div className="table-responsive">
+										<table className="table table-bordered table-striped">
+											<thead>
+												<tr>
+													<th className="text-center"> Situação </th>
+													<th className="text-center"> Data </th>
+													<th className="text-center"> Hora </th>
+													<th className="text-center"> Usuário </th>
+												</tr>
+											</thead>
+											<tbody>
+												{historico?.map((item) => {
+													return (
+														<tr key={item.id}>
+															<td> {item.descricaoSituacao} </td>
+															<td>
+																{moment(
+																	item.dataHoraRegistro,
+																).format('DD/MM/YYYY')}
+															</td>
+															<td>
+																{moment(
+																	item.dataHoraRegistro,
+																).format('HH:mm:ss')}
+															</td>
+															<td> {item.usuarioRegistro} </td>
+														</tr>
+													);
+												})}
+											</tbody>
+										</table>
+									</div>
+								</>
+							)}
 					</>
 				)}
 			</Modal.Body>

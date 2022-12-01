@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { KeyboardEvent, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import DesativarRegistro from '../../../components/DesativarRegistro';
-import ReativarRegistro from '../../../components/ReativarRegistro';
+
 import { paginacaoDatatables } from '../../../constants/global';
 import { Grupo } from '../../../models/Grupo';
+import Desativar from '../Desativar';
 import Detalhar from '../Detalhar';
+import Reativar from '../Reativar';
 import { ColunasTabela, TabelaProps } from './types';
 
 const Tabela = ({ grupos, grupo, refetch, setGrupo, setStatusFormulario }: TabelaProps) => {
@@ -217,7 +218,7 @@ const Tabela = ({ grupos, grupo, refetch, setGrupo, setStatusFormulario }: Tabel
 						setStatusModalDetalhar={setStatusModalDetalhar}
 					/>
 
-					<DesativarRegistro
+					<Desativar
 						id={grupo?.id}
 						modulo="grupo"
 						refetch={refetch}
@@ -225,7 +226,7 @@ const Tabela = ({ grupos, grupo, refetch, setGrupo, setStatusFormulario }: Tabel
 						setStatusDesativarRegistro={setStatusDesativarRegistro}
 					/>
 
-					<ReativarRegistro
+					<Reativar
 						id={grupo?.id}
 						modulo="grupo"
 						refetch={refetch}

@@ -62,7 +62,7 @@ const LoginPage = () => {
 							<input
 								id="login"
 								{...register('login', {
-									required: 'Login em branco',
+									required: { value: true, message: 'Login em branco' },
 									minLength: {
 										value: 3,
 										message: 'O Login deve possuir ao menos três caracteres',
@@ -85,7 +85,7 @@ const LoginPage = () => {
 							<input
 								id="senha"
 								{...register('senha', {
-									required: 'Senha em branco',
+									required: { value: true, message: 'Senha em branco' },
 									minLength: {
 										value: 3,
 										message: 'A senha deve possuir ao menos três caracteres',
