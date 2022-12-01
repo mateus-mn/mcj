@@ -7,9 +7,10 @@ import { Route, Routes } from 'react-router-dom';
 import LoginPage from '../Login';
 import Menu from '../../components/Menu';
 import GruposPage from '../Grupos';
-import HomePage from '../Grupos/Home';
+import HomePage from '../Home';
 import { Token } from '../../models/Token';
 import { toast } from 'react-toastify';
+import PessoasPage from '../Pessoas';
 
 const InicialPage = () => {
 	const { data, isLoading, error } = useGetVerificarToken({
@@ -20,7 +21,9 @@ const InicialPage = () => {
 				// se o usuário está na raiz, a mensagem de sessão expirada não é necessária
 				if (window.location.pathname !== '/') {
 					toast.warn('Sua sessão expirou');
-					window.location.href = '/';
+					setTimeout(() => {
+						window.location.href = '/';
+					}, 1500);
 				}
 			}
 		},
@@ -54,6 +57,7 @@ const InicialPage = () => {
 					<Menu />
 					<Routes>
 						<Route path="/home" element={<HomePage />} />
+						<Route path="/pessoas" element={<PessoasPage />} />
 						<Route path="/grupos" element={<GruposPage />} />
 					</Routes>
 				</>
