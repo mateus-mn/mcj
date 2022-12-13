@@ -11,6 +11,7 @@ import HomePage from '../Home';
 import { Token } from '../../models/Token';
 import { toast } from 'react-toastify';
 import PessoasPage from '../Pessoas';
+import UsuariosPage from '../Usuarios';
 
 const InicialPage = () => {
 	const { data, isLoading, error } = useGetVerificarToken({
@@ -59,6 +60,7 @@ const InicialPage = () => {
 						<Route path="/home" element={<HomePage />} />
 						<Route path="/pessoas" element={<PessoasPage />} />
 						<Route path="/grupos" element={<GruposPage />} />
+						<Route path="/usuarios" element={<UsuariosPage />} />
 					</Routes>
 				</>
 			)}

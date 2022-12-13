@@ -13,15 +13,7 @@ import {
 export const useGetPessoas = (options?: UseQueryOptions<Pessoa[]>) => {
 	return useQuery<Pessoa[]>(
 		createUseGetPessoasKey(),
-		() =>
-			fetch(`${api.href}pessoa/listar`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
-				},
-				method: 'GET',
-			}).then((response) => response.json()),
+		() => api.get(`/pessoa/listar/`).then((response) => response.data),
 		options,
 	);
 };
@@ -32,15 +24,7 @@ export const useGetDetalharPessoa = (
 ) => {
 	return useQuery<Pessoa[]>(
 		createUseGetDetalharPessoaKey(id),
-		() =>
-			fetch(`${api.href}pessoa/listar/${id}`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
-				},
-				method: 'GET',
-			}).then((response) => response.json()),
+		() => api.get(`/pessoa/listar/${id}`).then((response) => response.data),
 		options,
 	);
 };
@@ -48,31 +32,14 @@ export const useGetDetalharPessoa = (
 export const useGetTotalPessoas = (options?: UseQueryOptions<Total>) => {
 	return useQuery<Total>(
 		createUseGetTotalPessoasKey(),
-		() =>
-			fetch(`${api.href}pessoa/listarTotais`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
-				},
-				method: 'GET',
-			}).then((response) => response.json()),
+		() => api.get('/pessoa/listarTotais').then((response) => response.data),
 		options,
 	);
 };
 
 export const useAddPessoa = (options?: UseMutationOptions<Pessoa, AxiosError, PessoaForm>) => {
 	return useMutation<Pessoa, AxiosError, PessoaForm>(
-		(data) =>
-			fetch(`${api.href}pessoa/cadastrar`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
-				},
-				method: 'POST',
-				body: JSON.stringify(data),
-			}).then((response) => response.json()),
+		(data) => api.post('/pessoa/cadastrar', data).then((response) => response.data),
 		options,
 	);
 };
@@ -82,16 +49,7 @@ export const useAlterPessoa = (
 	options?: UseMutationOptions<Pessoa, AxiosError, PessoaForm>,
 ) => {
 	return useMutation<Pessoa, AxiosError, PessoaForm>(
-		(data) =>
-			fetch(`${api.href}pessoa/alterar/${id}`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
-				},
-				method: 'PUT',
-				body: JSON.stringify(data),
-			}).then((response) => response.json()),
+		(data) => api.put(`/pessoa/alterar/${id}`, data).then((response) => response.data),
 		options,
 	);
 };

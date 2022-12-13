@@ -98,7 +98,9 @@ const Formulario = ({
 					fecharFormulario(true);
 				},
 				onError: async () => {
-					toast.error('Desculpe, ocorreu algum erro interno \n Código: alterarPessoa');
+					toast.error(
+						`Desculpe, ocorreu algum erro interno \n Código: alterarPessoa${pessoa?.id}`,
+					);
 				},
 			},
 		);
@@ -159,6 +161,7 @@ const Formulario = ({
 										className={
 											'form-control' + (errors.nome ? ' is-invalid' : '')
 										}
+										aria-invalid={errors.nome ? true : false}
 									/>
 									<div className="invalid-feedback"> {errors.nome?.message} </div>
 								</div>
@@ -176,6 +179,7 @@ const Formulario = ({
 										className={
 											'form-control' + (errors.sexo ? ' is-invalid' : '')
 										}
+										aria-invalid={errors.sexo ? true : false}
 									>
 										<>
 											{isLoadingSexos && (
@@ -214,6 +218,7 @@ const Formulario = ({
 											'form-control' +
 											(errors.dataNascimento ? ' is-invalid' : '')
 										}
+										aria-invalid={errors.dataNascimento ? true : false}
 										type="date"
 										max="3000-12-31"
 									/>
@@ -236,6 +241,7 @@ const Formulario = ({
 										className={
 											'form-control' + (errors.email ? ' is-invalid' : '')
 										}
+										aria-invalid={errors.email ? true : false}
 										type="email"
 									/>
 									<div className="invalid-feedback">{errors.email?.message}</div>
@@ -256,6 +262,7 @@ const Formulario = ({
 										className={
 											'form-control' + (errors.celular ? ' is-invalid' : '')
 										}
+										aria-invalid={errors.celular ? true : false}
 									/>
 
 									<div className="invalid-feedback">

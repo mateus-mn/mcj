@@ -1,4 +1,10 @@
-import { faHome, faRightFromBracket, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import {
+	faHome,
+	faRightFromBracket,
+	faUser,
+	faUserAstronaut,
+	faUsers,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Nav, Navbar } from 'react-bootstrap';
 
@@ -26,6 +32,9 @@ const Menu = () => {
 						</Nav.Link>
 						<Nav.Link active href="/grupos">
 							<FontAwesomeIcon icon={faUsers} /> Grupos
+						</Nav.Link>
+						<Nav.Link active href="/usuarios">
+							<FontAwesomeIcon icon={faUserAstronaut} /> Usuários
 						</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>

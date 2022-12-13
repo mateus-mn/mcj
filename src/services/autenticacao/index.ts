@@ -11,30 +11,14 @@ export const useGetVerificarToken = (options?: UseQueryOptions<Token>) => {
 
 	return useQuery<Token>(
 		createUseGetVerificarTokenKey(),
-		() =>
-			fetch(`${api.href}auth/verificarToken`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				method: 'POST',
-				body: token,
-			}).then((response) => response.json()),
+		() => api.post('/auth/verificarToken', token).then((response) => response.data),
 		options,
 	);
 };
 
 export const useAutenticar = (options?: UseMutationOptions<Token, AxiosError, LoginForm>) => {
 	return useMutation<Token, AxiosError, LoginForm>(
-		(data) =>
-			fetch(`${api.href}auth/login`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				method: 'POST',
-				body: JSON.stringify(data),
-			}).then((response) => response.json()),
+		(data) => api.post('/auth/login', data).then((response) => response.data),
 		options,
 	);
 };

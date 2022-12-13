@@ -77,7 +77,9 @@ const Formulario = ({
 					fecharFormulario(true);
 				},
 				onError: async () => {
-					toast.error('Desculpe, ocorreu algum erro interno \n Código: alterarGrupo');
+					toast.error(
+						`Desculpe, ocorreu algum erro interno \n Código: alterarGrupo${grupo?.id}`,
+					);
 				},
 			},
 		);
@@ -142,6 +144,7 @@ const Formulario = ({
 										className={
 											'form-control' + (errors.numero ? ' is-invalid' : '')
 										}
+										aria-invalid={errors.numero ? true : false}
 										type="number"
 										onBlur={setarNomeGrupo}
 									/>
@@ -161,6 +164,7 @@ const Formulario = ({
 										className={
 											'form-control' + (errors.nome ? ' is-invalid' : '')
 										}
+										aria-invalid={errors.nome ? true : false}
 									/>
 									<div className="invalid-feedback"> {errors.nome?.message} </div>
 								</div>

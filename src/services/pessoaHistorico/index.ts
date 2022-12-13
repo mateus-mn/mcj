@@ -10,15 +10,7 @@ export const useGetHistoricoPessoa = (
 ) => {
 	return useQuery<PessoaHistorico[]>(
 		createUseGetHistoricoPessoaKey(idPessoa),
-		() =>
-			fetch(`${api.href}pessoaHistorico/listar/${idPessoa}`, {
-				mode: 'cors',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-					Authorization: 'Bearer ' + sessionStorage.getItem('tokenUsuario'),
-				},
-				method: 'GET',
-			}).then((response) => response.json()),
+		() => api.get(`/pessoaHistorico/listar/${idPessoa}`).then((response) => response.data),
 		options,
 	);
 };

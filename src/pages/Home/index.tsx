@@ -1,8 +1,15 @@
-import { faFaceSmileBeam, faFrown, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import {
+	faFaceSmileBeam,
+	faFrown,
+	faUser,
+	faUserAstronaut,
+	faUsers,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Carregando from '../../components/Carregando';
 import { useGetTotalGrupos } from '../../services/grupos';
 import { useGetTotalPessoas } from '../../services/pessoas';
+import { useGetTotalUsuarios } from '../../services/usuarios';
 
 const HomePage = () => {
 	const {
@@ -18,6 +25,14 @@ const HomePage = () => {
 		isLoading: isLoadingTotalGrupos,
 		isError: isErrorTotalGrupos,
 	} = useGetTotalGrupos({
+		refetchInterval: false,
+		refetchOnWindowFocus: false,
+	});
+	const {
+		data: totalUsuarios,
+		isLoading: isLoadingTotalUsuarios,
+		isError: isErrorTotalUsuarios,
+	} = useGetTotalUsuarios({
 		refetchInterval: false,
 		refetchOnWindowFocus: false,
 	});
@@ -134,6 +149,59 @@ const HomePage = () => {
 											{totalGrupos?.totalInativos === 1
 												? `${totalGrupos?.totalInativos} desativado`
 												: `${totalGrupos?.totalInativos} desativados`}
+										</h6>
+									</>
+								)}
+						</div>
+					</div>
+				</div>
+				<div className="col-3 mt-3">
+					<div className="card h-100">
+						<div
+							className="card-header"
+							onClick={() => goTo('usuarios')}
+							style={{ cursor: 'pointer' }}
+						>
+							<FontAwesomeIcon icon={faUserAstronaut} /> Usuários
+						</div>
+						<div className="card-body">
+							{isLoadingTotalUsuarios && <Carregando />}
+
+							{isErrorTotalUsuarios && (
+								<>
+									<p className="text-center">
+										Desculpe, não foi possível exibir o total de usuários
+									</p>
+									<p className="text-center">
+										<FontAwesomeIcon icon={faFrown} />
+									</p>
+								</>
+							)}
+
+							{!isLoadingTotalUsuarios &&
+								!isErrorTotalUsuarios &&
+								totalUsuarios?.total === 0 && (
+									<p className="card-title text-center"> Sem registros </p>
+								)}
+
+							{!isLoadingTotalUsuarios &&
+								!isErrorTotalUsuarios &&
+								totalUsuarios?.total !== 0 && (
+									<>
+										<h5 className="card-title text-center">
+											{totalUsuarios?.total === 1
+												? `${totalUsuarios?.total} cadastro`
+												: `${totalUsuarios?.total} cadastros`}
+										</h5>
+										<h6 className="card-title text-center">
+											{totalUsuarios?.totalAtivos === 1
+												? `${totalUsuarios?.totalAtivos} ativo`
+												: `${totalUsuarios?.totalAtivos} ativos`}
+										</h6>
+										<h6 className="card-title text-center">
+											{totalUsuarios?.totalInativos === 1
+												? `${totalUsuarios?.totalInativos} desativado`
+												: `${totalUsuarios?.totalInativos} desativados`}
 										</h6>
 									</>
 								)}

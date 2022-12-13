@@ -69,6 +69,7 @@ const LoginPage = () => {
 									},
 								})}
 								className={'form-control' + (errors.login ? ' is-invalid' : '')}
+								aria-invalid={errors.login ? true : false}
 							/>
 							{errors.login && (
 								<div role="alert" className="invalid-feedback">
@@ -93,6 +94,7 @@ const LoginPage = () => {
 								})}
 								type="password"
 								className={'form-control' + (errors.senha ? ' is-invalid' : '')}
+								aria-invalid={errors.senha ? true : false}
 							/>
 							{errors.senha && (
 								<div role="alert" className="invalid-feedback">
